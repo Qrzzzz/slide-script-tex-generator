@@ -106,3 +106,31 @@ The final answer should include:
 - A short XeLaTeX compile hint as a user-facing hint only; do not compile.
 
 Do not return partial snippets only.
+
+## 11. Adaptive font size check
+
+If adaptive font sizing is enabled, verify that each slide block uses one of:
+
+- `Large`
+- `large`
+- `normalsize`
+- `small`
+
+Do not use `huge`, `Huge`, `LARGE`, or other extreme sizes for manuscript body text.
+
+- Very short scripts may use `Large`.
+- Normal scripts should usually use `normalsize`.
+- Long scripts should use `small`.
+- If a page risks overflow, reduce the font size.
+
+## 12. Blank page check
+
+If blank pages, divider pages, or pages without script are detected or suspected, confirm the handling choice with the user before final generation.
+
+- Do not silently delete blank pages.
+- Do not silently keep confusing blank pages without a placeholder.
+- If kept, generate a clear placeholder such as:
+
+```latex
+% No script provided for this slide.
+```

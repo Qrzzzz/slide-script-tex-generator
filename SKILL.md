@@ -60,7 +60,7 @@ If the user provides PPTX only, respond:
 
 Use these defaults when the user does not specify preferences:
 
-- layout: `left-thumbnail-clean`
+- layout: `top-slide-manuscript`
 - PDF filename: `slides.pdf`
 - script handling: one section per slide when possible
 - speaker mode: single speaker
@@ -68,25 +68,46 @@ Use these defaults when the user does not specify preferences:
 - engine target: XeLaTeX
 - output: one complete `.tex` source file
 
-## User questions
+## Required pre-generation questions
 
-Ask only for missing information that affects the output.
+Before generating the final `.tex`, ask the user the following questions unless the answer has already been clearly provided:
 
-If layout is unclear, ask the user to choose one:
+1. 是否使用默认版式 `top-slide-manuscript`？
 
-```text
-A. left-thumbnail-clean：左侧 PPT 缩略图，右侧演讲稿，适合正式汇报
-B. top-slide-manuscript：上方大图，下方演讲稿，适合排练和背稿
-C. compact-review-notes：紧凑打印版，适合复习和节省页数
-```
+Explain this default layout briefly:
 
-If script splitting is unclear, ask:
+`top-slide-manuscript` means: each output page shows a large slide preview on the top and the corresponding speech manuscript below it. It is best for rehearsal, reading, and slide-by-slide manuscript alignment.
 
-```text
-你的演讲稿是已经按页分好了，还是需要我按 slides.pdf 页数自动切分？
-```
+Chinese explanation:
 
-If the user asks for a default, use `left-thumbnail-clean`.
+`top-slide-manuscript` 是默认版式：每一页上方放当前 PPT 页的大图，下方放对应这一页的演讲稿。它适合排练、背稿和逐页对照检查。
+
+2. 演讲稿是否已经按 PPT 页码分好？
+
+Ask:
+
+- 已经用 `---` 分好了
+- 已经用 `Slide 1 / 第1页` 之类标题分好了
+- 没有分好，需要按 PDF 页数大致切分
+
+3. 是否允许自动调整每页演讲稿字号？
+
+Ask:
+
+- 允许：短稿页面可以适当放大字号
+- 不允许：全部页面使用统一字号
+
+Default: allow adaptive font sizing.
+
+4. 如果 PDF 中可能存在空白页或过渡页，应该如何处理？
+
+Ask:
+
+- 保留空白页，并生成空白演讲稿占位
+- 跳过空白页
+- 让我手动指定哪些页是空白页或不需要讲稿
+
+Default: do not guess. Ask user first if blank pages are detected or suspected.
 
 Do not ask about PPTX conversion or LaTeX compilation.
 
@@ -108,6 +129,59 @@ If there are fewer script sections than slide pages, create empty placeholders f
 If there are more script sections than slide pages, keep the extra content under an Extra Notes section at the end of the LaTeX file.
 
 Do not silently delete text.
+
+## Blank page handling
+
+If the slide PDF appears to contain blank pages, transition pages, section dividers, or pages with no meaningful visible content, do not silently generate the final `.tex`.
+
+Ask the user how to handle them.
+
+The skill should present options:
+
+1. Keep these pages and create empty script placeholders.
+2. Skip these pages.
+3. Let the user manually specify which pages to include or exclude.
+
+If the system cannot inspect the PDF visually, but the script section count and slide count strongly suggest possible blank or divider pages, ask the user before generation.
+
+Examples of mismatch that should trigger a question:
+
+- PDF has more pages than script sections.
+- Script has obvious slide numbers but skips pages.
+- There are very short or empty script sections between normal sections.
+- The user mentions title pages, transition pages, blank pages, divider slides, or backup slides.
+
+Do not assume blank pages should be removed.
+
+## Adaptive manuscript font sizing
+
+When the selected template is `top-slide-manuscript`, the skill may adapt the manuscript font size per slide if the user allows it.
+
+Purpose:
+
+- If a slide has very little script content, make the text larger so the page looks fuller and easier to read.
+- If a slide has a normal or long script, use a normal readable size.
+- Never make text so large that it risks being cut off, pushed outside the page, or causing severe overflow.
+
+Use conservative size levels only:
+
+- very short script: `\Large`
+- short script: `\large`
+- normal script: `\normalsize`
+- long script: `\small`
+
+Do not use extremely large sizes such as `\LARGE`, `\huge`, or `\Huge` for manuscript body text.
+
+Recommended heuristic:
+
+- 0–60 Chinese characters or 0–45 English words: `\Large`
+- 61–140 Chinese characters or 46–100 English words: `\large`
+- 141–350 Chinese characters or 101–230 English words: `\normalsize`
+- more than that: `\small`
+
+If unsure, choose the smaller size.
+
+The adaptive font size should be passed into the slide block environment or defined per block in a stable way.
 
 ## Markdown handling
 
@@ -146,8 +220,8 @@ Use one of these templates from `assets/templates/`:
 
 Selection rules:
 
-- Use `left-thumbnail-clean.tex` by default.
-- Use `top-slide-manuscript.tex` when the user wants larger slide previews or full manuscript rehearsal.
+- Use `top-slide-manuscript.tex` by default.
+- Use `left-thumbnail-clean.tex` when the user wants a classic left-slide right-script handout.
 - Use `compact-review-notes.tex` when the user wants compact printable notes.
 
 The templates contain the placeholder:
