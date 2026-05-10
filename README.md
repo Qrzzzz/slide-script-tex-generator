@@ -27,6 +27,116 @@ It is designed for students, presenters, teachers, and anyone who wants to organ
 
 ---
 
+## Install in Codex
+
+This project can be used as a Codex Skill. A Codex Skill is essentially a folder that contains a `SKILL.md` file. After installation, Codex can invoke this workflow when you need to convert a slide PDF and a page-by-page script into a LaTeX handout source file.
+
+### Method 1: Ask Cursor to install it automatically
+
+You can paste the following instruction into Cursor and let it install the skill in your local Codex environment:
+
+```text
+Please install this GitHub repository as a Codex Skill:
+
+https://github.com/Qrzzzz/slide-script-tex-generator
+
+Requirements:
+1. Download or clone the entire repository into the Codex skills directory.
+2. If CODEX_HOME is set, install it to $CODEX_HOME/skills/slide-script-tex-generator.
+3. If CODEX_HOME is not set, install it to ~/.codex/skills/slide-script-tex-generator.
+4. Verify that SKILL.md exists in the target directory.
+5. After installation, remind me to restart Codex or start a new Codex session.
+6. Do not copy only the README. Keep SKILL.md, assets, references, examples, and the full folder structure.
+```
+
+After installation, you can invoke it in Codex like this:
+
+```text
+Use the slide-script-tex-generator skill.
+
+I have slides.pdf and script.md.
+Please generate a LaTeX handout using the left-thumbnail-clean layout.
+Only output the final main.tex source code.
+```
+
+Or:
+
+```text
+$slide-script-tex-generator
+
+Please generate a top-slide-manuscript style LaTeX handout source file based on slides.pdf and my page-by-page presentation script.
+```
+
+### Method 2: Use Codex's built-in skill installer
+
+Inside Codex, run:
+
+```text
+$skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator
+```
+
+If your Codex version expects a GitHub tree URL, try:
+
+```text
+$skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tree/main
+```
+
+After installation, restart Codex or open a new Codex session.
+
+### Method 3: Manual command-line installation
+
+macOS / Linux / WSL:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+
+rm -rf "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
+
+git clone https://github.com/Qrzzzz/slide-script-tex-generator.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
+
+test -f "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator/SKILL.md" \
+  && echo "Installed successfully. Restart Codex to use the skill."
+```
+
+Windows PowerShell:
+
+```powershell
+$CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE ".codex" }
+$SkillsDir = Join-Path $CodexHome "skills"
+$SkillDir = Join-Path $SkillsDir "slide-script-tex-generator"
+
+New-Item -ItemType Directory -Force -Path $SkillsDir | Out-Null
+
+if (Test-Path $SkillDir) {
+    Remove-Item -Recurse -Force $SkillDir
+}
+
+git clone https://github.com/Qrzzzz/slide-script-tex-generator.git $SkillDir
+
+if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
+    Write-Host "Installed successfully. Restart Codex to use the skill."
+} else {
+    Write-Host "Installation failed: SKILL.md was not found."
+}
+```
+
+### Verify installation
+
+After installation, check whether the following file exists:
+
+```text
+~/.codex/skills/slide-script-tex-generator/SKILL.md
+```
+
+Then restart Codex or start a new Codex session. You can use `/skills` to check whether the skill is detected, or invoke it directly in your prompt:
+
+```text
+Use the slide-script-tex-generator skill.
+```
+
+---
+
 ## What it does
 
 Given:
