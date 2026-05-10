@@ -1,0 +1,94 @@
+% Template: top-slide-manuscript.tex
+% Engine: XeLaTeX
+% Put slides.pdf and this .tex file in the same folder.
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue
+}
+
+% ---------- Font setup ----------
+\IfFontExistsTF{Times New Roman}{
+  \setmainfont{Times New Roman}
+}{
+  \setmainfont{Latin Modern Roman}
+}
+
+\IfFontExistsTF{Microsoft YaHei}{
+  \newfontfamily\zhfont{Microsoft YaHei}
+}{
+  \IfFontExistsTF{Noto Sans CJK SC}{
+    \newfontfamily\zhfont{Noto Sans CJK SC}
+  }{
+    \IfFontExistsTF{Source Han Sans SC}{
+      \newfontfamily\zhfont{Source Han Sans SC}
+    }{
+      \newcommand{\zhfont}{}
+    }
+  }
+}
+
+% ---------- Config ----------
+\newcommand{\SlidePDF}{slides.pdf}
+\newcommand{\DocTitle}{Presentation Manuscript}
+\newcommand{\DocSubtitle}{Slide-by-slide rehearsal script}
+
+\definecolor{titleblue}{RGB}{20,52,88}
+\definecolor{linegray}{RGB}{215,215,215}
+
+\newenvironment{SlideManuscriptBlock}[2]{
+  \section*{#1}
+
+  \begin{center}
+    \fcolorbox{linegray}{white}{
+      \includegraphics[page=#2,width=\dimexpr0.92\textwidth-2\fboxsep-2\fboxrule\relax]{\SlidePDF}
+    }
+  \end{center}
+
+  \vspace{0.6em}
+
+  {\large\bfseries\color{titleblue} Manuscript}\\[0.3em]
+
+  \noindent
+  {\color{linegray}\rule{\textwidth}{0.4pt}}
+
+  \vspace{0.5em}
+
+  \begin{minipage}{\textwidth}
+    \begingroup\zhfont
+}{
+    \endgroup
+  \end{minipage}
+
+  \vspace{0.5em}
+
+  \noindent{\color{linegray}\rule{\textwidth}{0.4pt}}
+
+  \newpage
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries \DocTitle}\\[0.4em]
+  {\large \DocSubtitle}\\[0.8em]
+  {\small Save this file as \texttt{main.tex}. Keep \texttt{\SlidePDF} in the same directory.}
+\end{center}
+
+\vspace{1em}
+\hrule
+\vspace{1.2em}
+
+%%SLIDE_BLOCKS%%
+
+\end{document}
