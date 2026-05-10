@@ -75,11 +75,15 @@ Every slide block environment must add `\newpage` internally at the end of the b
 
 ## Template choice
 
-Use `left-thumbnail-clean` when the user wants a normal speaker handout or does not specify a style.
+Use `top-slide-manuscript` when the user does not specify a style (default template).
 
-Use `top-slide-manuscript` when the user wants a large slide image and full manuscript.
+Use `top-slide-manuscript` when the user wants a large slide image and full manuscript, and for per-slide adaptive manuscript font sizing.
+
+Use `left-thumbnail-clean` when the user wants a classic speaker handout with slide-left/script-right layout.
 
 Use `compact-review-notes` when the user wants compact printable rehearsal notes with one slide-script unit per page.
+
+Only `top-slide-manuscript` supports per-slide adaptive manuscript font sizing by default; other templates prioritize stability and compatibility.
 
 ## Typography
 

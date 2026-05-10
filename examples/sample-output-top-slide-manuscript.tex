@@ -1,0 +1,44 @@
+% Sample output for slide-script-tex-generator
+% Style: top-slide-manuscript (default)
+% Engine: XeLaTeX
+% Put slides.pdf and this .tex file in the same folder.
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\newcommand{\SlidePDF}{slides.pdf}
+\newcommand{\DocTitle}{Presentation Manuscript}
+
+\newenvironment{SlideManuscriptBlock}[3][normalsize]{
+  \section*{#2}
+  \begin{center}
+    \includegraphics[page=#3,width=0.92\textwidth]{\SlidePDF}
+  \end{center}
+  \begingroup
+  \csname #1\endcsname
+}{
+  \endgroup
+  \newpage
+}
+
+\begin{document}
+\section*{\DocTitle}
+
+\begin{SlideManuscriptBlock}[large]{Slide 1}{1}
+Opening remarks and agenda overview. This page has very short script text, so a larger manuscript size is used.
+\end{SlideManuscriptBlock}
+
+\begin{SlideManuscriptBlock}[normalsize]{Slide 2}{2}
+This slide contains the core background context, assumptions, and transition sentences for the next section. The content length is moderate, so normalsize is used.
+\end{SlideManuscriptBlock}
+
+\begin{SlideManuscriptBlock}[small]{Slide 3}{3}
+This section has a longer manuscript body with multiple key points, supporting evidence, and closing notes. A smaller size helps prevent overflow while keeping the full script on the page in a stable and readable way.
+\end{SlideManuscriptBlock}
+
+\end{document}
