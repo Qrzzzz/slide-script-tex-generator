@@ -17,7 +17,7 @@
 
 ---
 
-## 项目概览
+## 🔍 项目概览
 
 **Slide Script TeX Generator** 是一个极简 Codex Skill，用于把已经导出的幻灯片 PDF 和演讲稿整理成一个可编辑的 LaTeX 讲义源码。
 
@@ -27,7 +27,7 @@
 
 ---
 
-## 默认优先流程（最新）
+## ✨ 默认优先流程（最新）
 
 默认版式是 `top-slide-manuscript`。
 
@@ -42,11 +42,11 @@
 
 ---
 
-## 安装到 Codex
+## 🛠️ 安装到 Codex
 
 本项目可以作为一个 Codex Skill 使用。Codex Skill 本质上是一个包含 `SKILL.md` 的文件夹；安装后，Codex 就可以在需要把幻灯片 PDF 与演讲稿整理成 LaTeX 讲义时调用这个工作流。
 
-### 方法一：让 Cursor 自动安装
+### 🤖 方法一：让 Cursor 自动安装
 
 你可以直接把下面这段话发给 Cursor，让它在你的本机环境中自动完成安装：
 
@@ -82,7 +82,7 @@ $slide-script-tex-generator
 请根据 slides.pdf 和我的逐页演讲稿生成 top-slide-manuscript 风格的 LaTeX 讲义源码。
 ```
 
-### 方法二：用 Codex 内置安装器
+### ⚙️ 方法二：用 Codex 内置安装器
 
 在 Codex 中输入：
 
@@ -98,7 +98,7 @@ $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tr
 
 安装后重启 Codex，或重新打开一个 Codex 会话。
 
-### 方法三：命令行手动安装
+### 💻 方法三：命令行手动安装
 
 macOS / Linux / WSL：
 
@@ -136,7 +136,7 @@ if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
 }
 ```
 
-### 验证安装
+### ✅ 验证安装
 
 安装完成后，检查下面的文件是否存在：
 
@@ -152,7 +152,7 @@ Use the slide-script-tex-generator skill.
 
 ---
 
-## 这个项目能做什么
+## 📦 这个项目能做什么
 
 给定：
 
@@ -177,7 +177,7 @@ main.tex
 
 ---
 
-## 核心特性
+## 🚀 核心特性
 
 - 根据 slide PDF 和演讲稿生成一个独立 `.tex` 文件
 - 按 PPT 页面对齐演讲稿内容
@@ -189,7 +189,7 @@ main.tex
 
 ---
 
-## 内置版式
+## 🧩 内置版式
 
 ### `left-thumbnail-clean`
 
@@ -231,7 +231,7 @@ main.tex
 
 ---
 
-## 推荐工作目录
+## 📁 推荐工作目录
 
 建议把 `slides.pdf`、演讲稿和生成的 `main.tex` 放在同一个文件夹中：
 
@@ -246,7 +246,7 @@ my-presentation/
 
 ---
 
-## 如何在 Codex 中使用
+## 💬 如何在 Codex 中使用
 
 可以这样要求 Codex：
 
@@ -269,7 +269,7 @@ Use the slide-script-tex-generator skill.
 
 ---
 
-## 演讲稿切分规则
+## ✂️ 演讲稿切分规则
 
 Skill 会按以下优先级切分演讲稿：
 
@@ -301,7 +301,7 @@ Skill 会尽量保留所有用户内容。
 
 ---
 
-## 生成后检查
+## ✅ 生成后检查
 
 生成 `.tex` 后，skill 会检查一些常见问题，例如：
 
@@ -315,7 +315,7 @@ Skill 会尽量保留所有用户内容。
 
 ---
 
-## 这个项目不做什么
+## 🚫 这个项目不做什么
 
 这个 skill 刻意保持很小的范围。
 
@@ -332,7 +332,7 @@ Skill 会尽量保留所有用户内容。
 
 ---
 
-## 项目结构
+## 🗂️ 项目结构
 
 ```text
 slide-script-tex-generator/
@@ -357,7 +357,7 @@ slide-script-tex-generator/
 
 ---
 
-## 编译生成的 LaTeX 文件
+## 🧪 编译生成的 LaTeX 文件
 
 Codex 生成 `main.tex` 后，把它和 `slides.pdf` 放在同一目录下，然后使用 XeLaTeX 编译：
 
@@ -370,6 +370,6 @@ LaTeX 编译不属于 skill 本身的工作范围。这个 skill 的职责到生
 
 ---
 
-## 开源许可证
+## 📄 开源许可证
 
 本项目使用 MIT License 开源。
