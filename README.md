@@ -190,6 +190,10 @@ This means the slide PDF stays as the visual source, while the speech script is 
 
 ## Available layouts
 
+`top-slide-manuscript` is the default style.
+
+This default style places a large slide preview at the top of each page and the corresponding speech manuscript below it. It is designed for rehearsal, reading, and page-by-page alignment.
+
 ### `left-thumbnail-clean`
 
 The slide thumbnail appears on the left, and the speech script appears on the right.
@@ -204,6 +208,8 @@ Best for:
 ---
 
 ### `top-slide-manuscript`
+
+Default layout.
 
 The slide preview appears at the top, and the full manuscript appears below.
 
@@ -228,6 +234,15 @@ Best for:
 - reduced page usage
 
 ---
+
+## Before generation
+
+Before generating the final `.tex`, the skill asks about:
+
+- whether to use the default `top-slide-manuscript` layout
+- how the script is split
+- whether adaptive font sizing is allowed
+- how to handle blank or divider pages
 
 ## Recommended working directory
 
