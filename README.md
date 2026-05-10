@@ -17,7 +17,7 @@
 
 ---
 
-## Overview
+## 🔍 Overview
 
 **Slide Script TeX Generator** is a minimal Codex Skill that turns an exported slide PDF and a speech script into a standalone LaTeX source file.
 
@@ -27,7 +27,7 @@ It is designed for students, presenters, teachers, and anyone who wants to organ
 
 ---
 
-## Default-first workflow (latest)
+## ✨ Default-first workflow (latest)
 
 `top-slide-manuscript` is the default style.
 
@@ -42,11 +42,11 @@ Before generating the final `.tex`, the skill must ask (unless already explicitl
 
 ---
 
-## Install in Codex
+## 🛠️ Install in Codex
 
 This project can be used as a Codex Skill. A Codex Skill is essentially a folder that contains a `SKILL.md` file. After installation, Codex can invoke this workflow when you need to convert a slide PDF and a page-by-page script into a LaTeX handout source file.
 
-### Method 1: Ask Cursor to install it automatically
+### 🤖 Method 1: Ask Cursor to install it automatically
 
 You can paste the following instruction into Cursor and let it install the skill in your local Codex environment:
 
@@ -82,7 +82,7 @@ $slide-script-tex-generator
 Please generate a top-slide-manuscript style LaTeX handout source file based on slides.pdf and my page-by-page presentation script.
 ```
 
-### Method 2: Use Codex's built-in skill installer
+### ⚙️ Method 2: Use Codex's built-in skill installer
 
 Inside Codex, run:
 
@@ -98,7 +98,7 @@ $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tr
 
 After installation, restart Codex or open a new Codex session.
 
-### Method 3: Manual command-line installation
+### 💻 Method 3: Manual command-line installation
 
 macOS / Linux / WSL:
 
@@ -136,7 +136,7 @@ if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
 }
 ```
 
-### Verify installation
+### ✅ Verify installation
 
 After installation, check whether the following file exists:
 
@@ -152,7 +152,7 @@ Use the slide-script-tex-generator skill.
 
 ---
 
-## What it does
+## 📦 What it does
 
 Given:
 
@@ -177,7 +177,7 @@ This means the slide PDF stays as the visual source, while the speech script is 
 
 ---
 
-## Core features
+## 🚀 Core features
 
 - Generate a standalone `.tex` file from a slide PDF and a speech script
 - Align script content with corresponding slide pages
@@ -188,7 +188,7 @@ This means the slide PDF stays as the visual source, while the speech script is 
 
 ---
 
-## Available layouts
+## 🧩 Available layouts
 
 `top-slide-manuscript` is the default style.
 
@@ -235,7 +235,7 @@ Best for:
 
 ---
 
-## Before generation
+## 🧭 Before generation
 
 Before generating the final `.tex`, the skill asks about:
 
@@ -244,7 +244,7 @@ Before generating the final `.tex`, the skill asks about:
 - whether adaptive font sizing is allowed
 - how to handle blank or divider pages
 
-## Recommended working directory
+## 📁 Recommended working directory
 
 ```text
 my-presentation/
@@ -257,7 +257,7 @@ The generated `.tex` file assumes that `slides.pdf` is in the same folder.
 
 ---
 
-## Example usage with Codex
+## 💬 Example usage with Codex
 
 You can ask Codex:
 
@@ -280,7 +280,7 @@ The script is separated by ---.
 
 ---
 
-## Script splitting
+## ✂️ Script splitting
 
 The skill tries to split the script in this order:
 
@@ -308,7 +308,7 @@ The skill preserves all user content. Extra script sections are kept as addition
 
 ---
 
-## Generation checklist
+## ✅ Generation checklist
 
 After generating the `.tex`, the skill checks common issues such as:
 
@@ -322,7 +322,7 @@ After generating the `.tex`, the skill checks common issues such as:
 
 ---
 
-## What this skill does not do
+## 🚫 What this skill does not do
 
 This skill intentionally stays narrow.
 
@@ -339,7 +339,7 @@ Please export your presentation as `slides.pdf` before using this skill.
 
 ---
 
-## Project structure
+## 🗂️ Project structure
 
 ```text
 slide-script-tex-generator/
@@ -364,7 +364,7 @@ slide-script-tex-generator/
 
 ---
 
-## Compile the generated file
+## 🧪 Compile the generated file
 
 After Codex generates `main.tex`, place it in the same directory as `slides.pdf`, then compile with XeLaTeX:
 
@@ -377,6 +377,6 @@ LaTeX compilation is outside the skill itself. The skill stops after generating 
 
 ---
 
-## License
+## 📄 License
 
 This project is released under the MIT License.
