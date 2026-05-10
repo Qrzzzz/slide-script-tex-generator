@@ -27,6 +27,116 @@
 
 ---
 
+## 安装到 Codex
+
+本项目可以作为一个 Codex Skill 使用。Codex Skill 本质上是一个包含 `SKILL.md` 的文件夹；安装后，Codex 就可以在需要把幻灯片 PDF 与演讲稿整理成 LaTeX 讲义时调用这个工作流。
+
+### 方法一：让 Cursor 自动安装
+
+你可以直接把下面这段话发给 Cursor，让它在你的本机环境中自动完成安装：
+
+```text
+请帮我把这个 GitHub 仓库安装为一个 Codex Skill：
+
+https://github.com/Qrzzzz/slide-script-tex-generator
+
+要求：
+1. 将整个仓库下载或克隆到 Codex 的 skills 目录中。
+2. 如果设置了 CODEX_HOME，则安装到 $CODEX_HOME/skills/slide-script-tex-generator。
+3. 如果没有设置 CODEX_HOME，则安装到 ~/.codex/skills/slide-script-tex-generator。
+4. 确认目标目录下存在 SKILL.md。
+5. 安装完成后提醒我重启 Codex，或在 Codex 中重新打开一个新会话。
+6. 不要只复制 README，要保留 SKILL.md、assets、references、examples 等目录结构。
+```
+
+安装完成后，在 Codex 中可以这样调用：
+
+```text
+使用 slide-script-tex-generator skill。
+
+我有 slides.pdf 和 script.md。
+请使用 left-thumbnail-clean 布局生成一份 LaTeX 讲义。
+只输出最终的 main.tex 源代码。
+```
+
+或者：
+
+```text
+$slide-script-tex-generator
+
+请根据 slides.pdf 和我的逐页演讲稿生成 top-slide-manuscript 风格的 LaTeX 讲义源码。
+```
+
+### 方法二：用 Codex 内置安装器
+
+在 Codex 中输入：
+
+```text
+$skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator
+```
+
+如果你的 Codex 版本要求使用 GitHub tree URL，也可以尝试：
+
+```text
+$skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tree/main
+```
+
+安装后重启 Codex，或重新打开一个 Codex 会话。
+
+### 方法三：命令行手动安装
+
+macOS / Linux / WSL：
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+
+rm -rf "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
+
+git clone https://github.com/Qrzzzz/slide-script-tex-generator.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
+
+test -f "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator/SKILL.md" \
+  && echo "Installed successfully. Restart Codex to use the skill."
+```
+
+Windows PowerShell：
+
+```powershell
+$CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE ".codex" }
+$SkillsDir = Join-Path $CodexHome "skills"
+$SkillDir = Join-Path $SkillsDir "slide-script-tex-generator"
+
+New-Item -ItemType Directory -Force -Path $SkillsDir | Out-Null
+
+if (Test-Path $SkillDir) {
+    Remove-Item -Recurse -Force $SkillDir
+}
+
+git clone https://github.com/Qrzzzz/slide-script-tex-generator.git $SkillDir
+
+if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
+    Write-Host "Installed successfully. Restart Codex to use the skill."
+} else {
+    Write-Host "Installation failed: SKILL.md was not found."
+}
+```
+
+### 验证安装
+
+安装完成后，检查下面的文件是否存在：
+
+```text
+~/.codex/skills/slide-script-tex-generator/SKILL.md
+```
+
+然后重启 Codex，或开启一个新的 Codex 会话。你可以通过 `/skills` 查看 Skill 是否被识别，也可以在提示词中直接写：
+
+```text
+Use the slide-script-tex-generator skill.
+```
+
+---
+
 ## 这个项目能做什么
 
 给定：
