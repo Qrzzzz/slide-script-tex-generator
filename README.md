@@ -27,6 +27,21 @@ It is designed for students, presenters, teachers, and anyone who wants to organ
 
 ---
 
+## Default-first workflow (latest)
+
+`top-slide-manuscript` is the default style.
+
+This default style places a large slide preview at the top of each page and the corresponding speech manuscript below it. It is designed for rehearsal, reading, and page-by-page alignment.
+
+Before generating the final `.tex`, the skill must ask (unless already explicitly answered):
+
+1. whether to use the default `top-slide-manuscript` layout
+2. how the script is split (`---`, slide headings, or needs approximate splitting)
+3. whether adaptive per-slide manuscript font sizing is allowed
+4. how to handle possible blank/divider/transition pages
+
+---
+
 ## Install in Codex
 
 This project can be used as a Codex Skill. A Codex Skill is essentially a folder that contains a `SKILL.md` file. After installation, Codex can invoke this workflow when you need to convert a slide PDF and a page-by-page script into a LaTeX handout source file.
@@ -55,7 +70,7 @@ After installation, you can invoke it in Codex like this:
 Use the slide-script-tex-generator skill.
 
 I have slides.pdf and script.md.
-Please generate a LaTeX handout using the left-thumbnail-clean layout.
+Please generate a LaTeX handout using the top-slide-manuscript layout (default).
 Only output the final main.tex source code.
 ```
 
