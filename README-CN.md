@@ -27,6 +27,21 @@
 
 ---
 
+## 默认优先流程（最新）
+
+默认版式是 `top-slide-manuscript`。
+
+该默认版式会在每页上方放较大的幻灯片预览，下方放对应演讲稿，适合排练、背稿和逐页对照。
+
+在生成最终 `.tex` 之前，skill 必须先询问（除非用户已明确给出答案）：
+
+1. 是否使用默认版式 `top-slide-manuscript`
+2. 演讲稿如何切分（`---`、`Slide 1/第1页` 标题、或需按页数粗略切分）
+3. 是否允许按页自适应调整讲稿字号
+4. 若存在空白页/过渡页/分隔页，应如何处理
+
+---
+
 ## 安装到 Codex
 
 本项目可以作为一个 Codex Skill 使用。Codex Skill 本质上是一个包含 `SKILL.md` 的文件夹；安装后，Codex 就可以在需要把幻灯片 PDF 与演讲稿整理成 LaTeX 讲义时调用这个工作流。
@@ -55,7 +70,7 @@ https://github.com/Qrzzzz/slide-script-tex-generator
 使用 slide-script-tex-generator skill。
 
 我有 slides.pdf 和 script.md。
-请使用 left-thumbnail-clean 布局生成一份 LaTeX 讲义。
+请使用默认的 top-slide-manuscript 布局生成一份 LaTeX 讲义。
 只输出最终的 main.tex 源代码。
 ```
 
@@ -177,8 +192,6 @@ main.tex
 ## 内置版式
 
 ### `left-thumbnail-clean`
-
-默认版式。
 
 左侧显示 PPT 缩略图，右侧显示对应页演讲稿。
 

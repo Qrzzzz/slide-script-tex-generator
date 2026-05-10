@@ -46,12 +46,12 @@
 \definecolor{titleblue}{RGB}{20,52,88}
 \definecolor{linegray}{RGB}{215,215,215}
 
-\newenvironment{SlideManuscriptBlock}[2]{
-  \section*{#1}
+\newenvironment{SlideManuscriptBlock}[3][normalsize]{
+  \section*{#2}
 
   \begin{center}
     \fcolorbox{linegray}{white}{
-      \includegraphics[page=#2,width=\dimexpr0.92\textwidth-2\fboxsep-2\fboxrule\relax]{\SlidePDF}
+      \includegraphics[page=#3,width=\dimexpr0.92\textwidth-2\fboxsep-2\fboxrule\relax]{\SlidePDF}
     }
   \end{center}
 
@@ -65,7 +65,9 @@
   \vspace{0.5em}
 
   \begin{minipage}{\textwidth}
-    \begingroup\zhfont
+    \begingroup
+    \csname #1\endcsname
+    \zhfont
 }{
     \endgroup
   \end{minipage}
