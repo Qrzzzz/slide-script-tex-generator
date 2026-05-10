@@ -6,7 +6,7 @@
 
 **Slide PDF / Speech Script / LaTeX Source / Speaker Notes / Bilingual Friendly**
 
-[中文](./README.cn.md) · [Examples](./examples) · [Templates](./assets/templates) · [Skill](./SKILL.md)
+[中文](./README-CN.md) · [Examples](./examples) · [Templates](./assets/templates) · [Skill](./SKILL.md)
 
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
 ![LaTeX](https://img.shields.io/badge/Output-LaTeX-008080?logo=latex&logoColor=white)
