@@ -9,7 +9,7 @@
 [中文](./README-CN.md) · [Examples](./examples) · [Templates](./assets/templates) · [Skill](./SKILL.md)
 
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
-![LaTeX](https://img.shields.io/badge/Output-LaTeX-008080?logo=latex&logoColor=white)
+![LaTeX](https://img.shields.io/badge/Output-PDF%20(via%20Tectonic)-008080?logo=latex&logoColor=white)
 ![PDF](https://img.shields.io/badge/Input-PDF-FF5722?logo=adobeacrobatreader&logoColor=white)
 ![License](https://img.shields.io/github/license/Qrzzzz/slide-script-tex-generator)
 
@@ -19,7 +19,7 @@
 
 ## 🔍 Overview
 
-**Slide Script TeX Generator** is a minimal Codex Skill that turns an exported slide PDF and a speech script into a standalone LaTeX source file.
+**Slide Script TeX Generator** is a minimal Codex Skill that turns an exported slide PDF and a speech script into a standalone LaTeX source file, then optionally compiles it to a final PDF via Tectonic.
 
 It is designed for students, presenters, teachers, and anyone who wants to organize presentation scripts together with slide previews.
 
@@ -150,6 +150,27 @@ Then restart Codex or start a new Codex session. You can use `/skills` to check 
 Use the slide-script-tex-generator skill.
 ```
 
+
+## 🧱 From TeX to final PDF (Tectonic)
+
+This repository now treats **PDF as the final deliverable**.
+
+Typical flow:
+
+1. Generate `main.tex` using this skill
+2. Compile with official Codex LaTeX **Tectonic** tooling
+3. Deliver `main.pdf` for printing/review
+
+If Tectonic tooling is not installed in your Codex environment, you can ask Codex to install/enable the official plugin first, then run compilation.
+
+CLI fallback:
+
+```bash
+tectonic main.tex
+```
+
+After success, `main.pdf` will be created in the same folder.
+
 ---
 
 ## 📦 What it does
@@ -165,6 +186,7 @@ It generates:
 
 ```text
 main.tex
+main.pdf (optional, via Tectonic compilation)
 ```
 
 The generated LaTeX file references individual pages from the slide PDF directly:

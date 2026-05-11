@@ -1,6 +1,6 @@
 ---
 name: slide-script-tex-generator
-description: Generate a single standalone LaTeX .tex file that aligns a user-provided slide PDF with a speech script. Use this when the user already has a PDF slide deck and wants a LaTeX speaker handout, rehearsal manuscript, or compact review notes. The skill outputs only LaTeX source and does not convert PPTX, compile LaTeX, run OCR, or create project folders.
+description: Generate a single standalone LaTeX .tex file that aligns a user-provided slide PDF with a speech script. Use this when the user already has a PDF slide deck and wants a LaTeX speaker handout, rehearsal manuscript, or compact review notes. The skill outputs LaTeX source and, when requested, can guide compilation to final PDF using Codex official LaTeX Tectonic tooling. It does not convert PPTX, run OCR, or create project folders.
 ---
 
 # Slide Script TeX Generator
@@ -46,9 +46,9 @@ Never use an absolute path.
 
 ## Scope
 
-This skill only generates LaTeX source.
+This skill generates LaTeX source and can optionally continue to a compiled PDF workflow.
 
-It does not perform file conversion, compilation, OCR, dependency installation, folder generation, or PDF rasterization.
+It does not perform PPTX conversion, OCR, or PDF rasterization.
 
 If the user provides PPTX only, respond:
 
@@ -67,6 +67,22 @@ Use these defaults when the user does not specify preferences:
 - language mode: preserve the user's original language
 - engine target: XeLaTeX
 - output: one complete `.tex` source file
+
+
+## PDF-first completion workflow
+
+After producing `main.tex`, ask whether the user wants to continue to a compiled PDF.
+
+If yes, prefer Codex official LaTeX Tectonic plugin/tooling.
+
+Recommended flow:
+
+1. Confirm whether official Tectonic support is already available in the user's Codex environment.
+2. If not available, guide the user to install/enable the official LaTeX Tectonic plugin first (or install it on their behalf when the environment allows).
+3. Compile `main.tex` to `main.pdf` with Tectonic.
+4. Report compile status and obvious LaTeX errors with actionable fixes.
+
+When the environment cannot compile, still provide exact commands the user can run locally.
 
 ## Required pre-generation questions
 
