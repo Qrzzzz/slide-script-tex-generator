@@ -9,7 +9,7 @@
 [English](./README.md) · [示例](./examples) · [模板](./assets/templates) · [Skill](./SKILL.md)
 
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
-![LaTeX](https://img.shields.io/badge/Output-LaTeX-008080?logo=latex&logoColor=white)
+![LaTeX](https://img.shields.io/badge/Output-PDF%20(via%20Tectonic)-008080?logo=latex&logoColor=white)
 ![PDF](https://img.shields.io/badge/Input-PDF-FF5722?logo=adobeacrobatreader&logoColor=white)
 ![License](https://img.shields.io/github/license/Qrzzzz/slide-script-tex-generator)
 
@@ -19,7 +19,7 @@
 
 ## 🔍 项目概览
 
-**Slide Script TeX Generator** 是一个极简 Codex Skill，用于把已经导出的幻灯片 PDF 和演讲稿整理成一个可编辑的 LaTeX 讲义源码。
+**Slide Script TeX Generator** 是一个极简 Codex Skill，用于把已经导出的幻灯片 PDF 和演讲稿整理成一个可编辑的 LaTeX 讲义源码，并可进一步通过 Tectonic 编译为最终 PDF。
 
 它适合学生汇报、课程展示、小组演讲、英文 presentation、教师讲义整理，以及任何需要把「PPT 页面」和「逐页讲稿」放在一起的人。
 
@@ -150,6 +150,27 @@ if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
 Use the slide-script-tex-generator skill.
 ```
 
+
+## 🧱 从 TeX 到最终 PDF（Tectonic）
+
+本仓库现在将 **PDF 作为最终交付物**。
+
+典型流程：
+
+1. 用本 skill 生成 `main.tex`
+2. 使用 Codex 官方 LaTeX **Tectonic** 工具链编译
+3. 交付 `main.pdf` 进行打印/复习
+
+如果当前 Codex 环境还未安装 Tectonic，可先让 Codex 引导你安装/启用官方插件，再执行编译。
+
+命令行兜底：
+
+```bash
+tectonic main.tex
+```
+
+编译成功后，会在同目录生成 `main.pdf`。
+
 ---
 
 ## 📦 这个项目能做什么
@@ -165,6 +186,7 @@ script.md / script.txt / 直接粘贴的演讲稿
 
 ```text
 main.tex
+main.pdf（可选，通过 Tectonic 编译）
 ```
 
 生成的 LaTeX 文件会直接引用 `slides.pdf` 中的单页，例如：
