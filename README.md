@@ -158,8 +158,8 @@ slide-script-tex-generator/
     ├── sample-main-top-slide-manuscript.tex
     ├── sample-main-left-thumbnail.tex
     ├── sample-main-compact-review-notes.tex
-    ├── sample-output-extra-notes.tex
-    └── sample-output-missing-script.tex
+    ├── sample-main-extra-notes.tex
+    └── sample-main-missing-script.tex
 ```
 
 ## What this skill does not do

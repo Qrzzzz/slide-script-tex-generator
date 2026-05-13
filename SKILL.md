@@ -40,7 +40,6 @@ Ask unless already answered:
 2. How is script split (`---`, headings, or unsplit)?
 3. Allow adaptive font sizing (top-slide-manuscript only)?
 4. How handle blank/divider pages (keep/skip/manual list)?
-5. If compilation tooling is missing, should the user install/enable it or accept TeX fallback?
 
 ## 5) Script normalization
 
@@ -108,11 +107,16 @@ Fallback to `main.tex` only if:
 4. environment cannot write or return PDF artifacts;
 5. user explicitly asks for TeX source only.
 
-## 9) Post-generation checklist
+## 9) Conditional fallback handling
+
+If PDF tooling is missing or unavailable at compilation stage, ask whether the user wants to enable/install compatible tooling or accept TeX fallback.
+Do not ask this before the workflow reaches compilation.
+
+## 10) Post-generation checklist
 
 Follow `references/post-generation-checklist.md`.
 
-## 10) Output format
+## 11) Output format
 
 Default successful output:
 - `main.pdf`
