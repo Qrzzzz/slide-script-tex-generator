@@ -9,7 +9,7 @@
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
 ![Core Output](https://img.shields.io/badge/Core%20Output-main.tex-0F766E)
 ![Input](https://img.shields.io/badge/Input-slides.pdf%20%2B%20script-FF5722)
-![License](https://img.shields.io/badge/License-LICENCE-blue)
+![License](https://img.shields.io/badge/License-LICENSE-blue)
 
 </div>
 
@@ -35,6 +35,16 @@ Use the slide-script-tex-generator skill.
 I have slides.pdf and a page-by-page script.
 Generate main.tex with the default top-slide-manuscript layout.
 Only output the full main.tex source.
+```
+
+中文调用示例：
+
+```text
+使用 slide-script-tex-generator skill。
+
+我有 slides.pdf 和逐页讲稿。
+请使用默认的 top-slide-manuscript 版式生成 main.tex。
+只输出完整的 main.tex 源码。
 ```
 
 ## 输入与输出
@@ -115,7 +125,7 @@ slide-script-tex-generator/
 ├── INSTALL.md
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
-├── LICENCE
+├── LICENSE
 ├── assets/
 │   ├── overview-en.png
 │   ├── overview-cn.png
@@ -151,4 +161,4 @@ slide-script-tex-generator/
 
 ## 许可证
 
-本项目使用 [LICENCE](./LICENCE)。
+本项目使用 [LICENSE](./LICENSE)。

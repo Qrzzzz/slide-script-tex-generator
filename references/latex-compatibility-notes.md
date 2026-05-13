@@ -5,11 +5,25 @@
 - Convert numbered lists to `enumerate`.
 - Convert speaker labels (e.g., `Speaker A:`) into bold labels when helpful.
 
-## Escaping
-Escape LaTeX-sensitive characters in normal text:
-- `# $ % & _ { } ~ ^ \\`
+## LaTeX special character mapping
 
-Do not over-escape inside code-style blocks.
+| Character | Escape form |
+|---|---|
+| `#` | `\#` |
+| `$` | `\$` |
+| `%` | `\%` |
+| `&` | `\&` |
+| `_` | `\_` |
+| `{` | `\{` |
+| `}` | `\}` |
+| `~` | `\textasciitilde{}` |
+| `^` | `\textasciicircum{}` |
+| `\` | `\textbackslash{}` |
+
+## Code blocks, paths, and commands
+- Do not mechanically escape code-like text into unreadable prose.
+- Use `verbatim` style or `\texttt{...}` for commands and path examples.
+- Apply escaping mainly to normal prose content.
 
 ## Bilingual content
 - Keep original language and wording unless rewrite is requested.

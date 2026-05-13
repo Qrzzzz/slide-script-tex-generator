@@ -9,7 +9,7 @@
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
 ![Core Output](https://img.shields.io/badge/Core%20Output-main.tex-0F766E)
 ![Input](https://img.shields.io/badge/Input-slides.pdf%20%2B%20script-FF5722)
-![License](https://img.shields.io/badge/License-LICENCE-blue)
+![License](https://img.shields.io/badge/License-LICENSE-blue)
 
 </div>
 
@@ -115,7 +115,7 @@ slide-script-tex-generator/
 ├── INSTALL.md
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
-├── LICENCE
+├── LICENSE
 ├── assets/
 │   ├── overview-en.png
 │   ├── overview-cn.png
@@ -151,4 +151,4 @@ See [examples](./examples) for scripts and generated `.tex` outputs across all l
 
 ## License
 
-Licensed under [LICENCE](./LICENCE).
+Licensed under [LICENSE](./LICENSE).

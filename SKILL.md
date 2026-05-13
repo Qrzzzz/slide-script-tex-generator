@@ -11,7 +11,7 @@ Generate one complete `main.tex` from:
 - `slides.pdf`
 - per-slide script text (Markdown/plain text/pasted)
 
-Normal final answer: **one complete `main.tex` source file**.
+The normal final answer is **one complete `main.tex` source file**.
 
 ## 2) Required inputs
 
@@ -59,15 +59,15 @@ Select from `assets/templates/`:
 - `left-thumbnail-clean.tex`
 - `compact-review-notes.tex`
 
+Template and environment mapping (must match):
+- `top-slide-manuscript.tex` -> `SlideManuscriptBlock`
+- `left-thumbnail-clean.tex` -> `SlideScriptBlock`
+- `compact-review-notes.tex` -> `CompactSlideBlock`
+
 All templates must:
 - include `%%SLIDE_BLOCKS%%`
 - use `\newcommand{\SlidePDF}{slides.pdf}`
 - avoid absolute paths
-
-Environment names:
-- `SlideScriptBlock`
-- `SlideManuscriptBlock`
-- `CompactSlideBlock`
 
 ## 7) LaTeX generation rules
 
@@ -76,7 +76,22 @@ Environment names:
 - End each slide block with a new page (via template environment design).
 - Keep long script content in environment body, not macro arguments.
 - Keep bilingual text intact; ensure Chinese/English compatibility.
-- Adaptive font sizing is optional and only for `top-slide-manuscript`.
+
+Adaptive font sizing rules (only for `top-slide-manuscript`):
+- very short script: `large` or `Large`
+- normal script: `normalsize`
+- long script: `small`
+- never use `LARGE`, `huge`, or `Huge` for manuscript body text
+- if unsure, choose the smaller size
+
+Suggested thresholds:
+- 0–60 Chinese characters or 0–45 English words: `large`
+- 61–140 Chinese characters or 46–100 English words: `large` or `normalsize`
+- 141–350 Chinese characters or 101–230 English words: `normalsize`
+- longer: `small`
+
+Use optional argument style consistent with template, for example:
+`\begin{SlideManuscriptBlock}[large]{Slide 1}{1}`
 
 ## 8) Optional compilation boundary
 
