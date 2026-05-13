@@ -8,15 +8,11 @@ $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator
 
 ## GitHub tree URL fallback
 
-If your Codex installation expects a tree URL:
-
 ```text
 $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tree/main
 ```
 
 ## Cursor natural-language installation
-
-You can paste this into Cursor:
 
 ```text
 Please install this GitHub repository as a Codex Skill:
@@ -26,10 +22,10 @@ Requirements:
 1. Clone the full repository into my Codex skills directory.
 2. If CODEX_HOME exists, install to $CODEX_HOME/skills/slide-script-tex-generator.
 3. Otherwise install to ~/.codex/skills/slide-script-tex-generator.
-4. Verify SKILL.md exists in the target folder.
-5. Keep SKILL.md, assets, references, examples, and the full folder structure.
+4. Verify SKILL.md exists in target folder.
+5. Keep SKILL.md, assets, references, examples, and full folder structure.
 6. Do not copy README only.
-7. Remind me to restart Codex or open a new Codex session.
+7. Remind me to restart Codex or open a new session.
 ```
 
 ## Manual install (macOS / Linux / WSL)
@@ -54,17 +50,40 @@ git clone https://github.com/Qrzzzz/slide-script-tex-generator.git $SkillDir
 
 ## Verify installation
 
-Check this file exists:
-
 ```text
 ~/.codex/skills/slide-script-tex-generator/SKILL.md
 ```
 
-You can also confirm the following directories exist under the skill folder:
+Also verify these directories exist:
 - `assets/`
 - `references/`
 - `examples/`
 
+## PDF generation requirement
+
+Basic skill installation installs the workflow.
+To produce PDF automatically, the user also needs available LaTeX/PDF compilation tooling.
+
+This skill is PDF-first. It generates `main.tex` first, then compiles it to `main.pdf` when compatible tooling is available.
+
+Preferred:
+- Codex LaTeX/Tectonic plugin/tooling
+
+Local fallback:
+
+```bash
+xelatex main.tex
+xelatex main.tex
+```
+
+or:
+
+```bash
+tectonic main.tex
+```
+
+If tooling is unavailable, the skill can still return `main.tex` as fallback.
+
 ## Final step
 
-Restart Codex or open a new Codex session so the skill can be detected.
+Restart Codex or open a new Codex session.

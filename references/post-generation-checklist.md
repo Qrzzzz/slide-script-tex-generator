@@ -1,14 +1,20 @@
-# Post-generation Checklist
+# PDF-first Post-generation Checklist
 
-Before returning final `main.tex`, verify:
+Before final response:
 
-1. The document is complete and compilable as one `.tex` file.
-2. Chosen template matches requested/default layout.
-3. `%%SLIDE_BLOCKS%%` has been replaced correctly.
-4. Every slide block references the expected PDF page number.
-5. Missing script sections are represented with placeholders.
-6. Extra script sections are preserved in `Extra Notes`.
-7. Blank/divider page handling follows explicit user choice.
-8. No absolute paths appear in slide references.
-9. Chinese/English text remains readable.
-10. If compilation is not requested, output stops at `main.tex`.
+1. `main.tex` is generated completely.
+2. Slide/script alignment is verified.
+3. No absolute paths in resource references.
+4. LaTeX special characters are escaped in prose.
+5. Compilation is attempted when compatible tooling is available.
+6. If compilation succeeds, return `main.pdf`.
+7. If compilation fails, record error summary and try reasonable fixes.
+8. If fallback is necessary, return `main.tex` and exact compile instructions.
+9. Do not claim PDF was generated unless `main.pdf` actually exists.
+
+Fallback to `main.tex` only if:
+1. required PDF compilation plugin/tooling is unavailable;
+2. user explicitly refuses enabling/installing it;
+3. compilation fails after reasonable automatic fixes;
+4. environment cannot write or return PDF artifacts;
+5. user explicitly asks for TeX source only.

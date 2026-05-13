@@ -11,8 +11,8 @@ When editing docs, keep these files aligned:
 ## Core boundary
 
 Keep project positioning stable:
-- Core output: `main.tex`
-- Optional output: compiled PDF
+- Primary output: `main.pdf`
+- Build artifact/fallback output: `main.tex` when needed
 
 ## Pull request checklist
 

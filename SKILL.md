@@ -1,17 +1,22 @@
 ---
 name: slide-script-tex-generator
-description: Generate one complete main.tex by aligning slides.pdf pages with per-slide scripts. Use when users need editable LaTeX speaker notes or rehearsal manuscripts from an exported slide PDF.
+description: Generate a compiled PDF speaker handout by aligning slides.pdf pages with per-slide scripts. The skill first creates main.tex as an intermediate build artifact, then compiles it to main.pdf when LaTeX/PDF tooling is available. Fall back to main.tex only when PDF generation is unavailable, refused, or fails.
 ---
 
 # Slide Script TeX Generator Skill Spec
 
 ## 1) Purpose
 
-Generate one complete `main.tex` from:
+Generate a standard final PDF handout from:
 - `slides.pdf`
-- per-slide script text (Markdown/plain text/pasted)
+- per-slide script text
 
-The normal final answer is **one complete `main.tex` source file**.
+Workflow:
+1. Normalize script.
+2. Generate `main.tex` using selected template.
+3. Compile `main.tex` to `main.pdf` using available LaTeX/PDF compiler/plugin.
+4. Return `main.pdf` as the primary deliverable.
+5. Fall back to `main.tex` only when compilation is unavailable, explicitly refused, or not recoverable.
 
 ## 2) Required inputs
 
@@ -23,90 +28,97 @@ If user only provides PPTX: ask them to export PDF first.
 ## 3) Defaults
 
 - Layout: `top-slide-manuscript`
-- Output filename target: `main.tex`
+- Build artifact filename: `main.tex`
+- Primary deliverable filename: `main.pdf`
 - Slide reference: `\newcommand{\SlidePDF}{slides.pdf}`
 - Language handling: preserve user language
-- Script mapping: one section per slide when possible
 
 ## 4) Required pre-generation questions
 
-Ask these unless already answered:
+Ask unless already answered:
 1. Use default layout `top-slide-manuscript`?
-2. How is script split (`---`, slide headings, or unsplit)?
+2. How is script split (`---`, headings, or unsplit)?
 3. Allow adaptive font sizing (top-slide-manuscript only)?
-4. How to handle blank/divider pages (keep, skip, or manual page list)?
+4. How handle blank/divider pages (keep/skip/manual list)?
+5. If compilation tooling is missing, should the user install/enable it or accept TeX fallback?
 
 ## 5) Script normalization
 
 Priority:
-1. Split by `---`
-2. Split by headings (`Slide 1`, `Page 1`, `第1页`, etc.)
-3. Split by numbered sections
-4. Otherwise split approximately by slide count
+1. `---`
+2. headings (`Slide 1`, `Page 1`, `第1页`, etc.)
+3. numbered sections
+4. approximate split by slide count
 
 Rules:
-- Keep all user content.
-- If script sections are fewer than slides, create empty placeholders.
-- If script sections exceed slides, append extras under `Extra Notes`.
-- Do not silently delete text.
-- Convert lightweight Markdown to LaTeX (`itemize`, `enumerate`, emphasis).
-- Escape LaTeX-sensitive characters in text content.
+- Preserve all text.
+- Fewer script sections than slides -> add placeholders.
+- More script sections than slides -> append to `Extra Notes`.
+- Convert lightweight Markdown to LaTeX.
+- Escape LaTeX-sensitive characters in prose.
 
 ## 6) Template selection
 
-Select from `assets/templates/`:
-- `top-slide-manuscript.tex` (default)
-- `left-thumbnail-clean.tex`
-- `compact-review-notes.tex`
-
-Template and environment mapping (must match):
+Template/environment mapping (must match):
 - `top-slide-manuscript.tex` -> `SlideManuscriptBlock`
 - `left-thumbnail-clean.tex` -> `SlideScriptBlock`
 - `compact-review-notes.tex` -> `CompactSlideBlock`
 
-All templates must:
-- include `%%SLIDE_BLOCKS%%`
-- use `\newcommand{\SlidePDF}{slides.pdf}`
-- avoid absolute paths
+All templates must include:
+- `%%SLIDE_BLOCKS%%`
+- `\newcommand{\SlidePDF}{slides.pdf}`
+- no absolute paths
 
 ## 7) LaTeX generation rules
 
-- Reference PDF pages directly with `\includegraphics[page=N,...]{\SlidePDF}`.
-- Generate blocks in slide order.
-- End each slide block with a new page (via template environment design).
-- Keep long script content in environment body, not macro arguments.
-- Keep bilingual text intact; ensure Chinese/English compatibility.
+- Reference PDF pages with `\includegraphics[page=N,...]{\SlidePDF}`.
+- Generate blocks in page order.
+- Keep long script content in environment bodies.
+- Keep bilingual content intact.
+- Ensure each slide block ends with a new page via template design.
 
-Adaptive font sizing rules (only for `top-slide-manuscript`):
-- very short script: `large` or `Large`
-- normal script: `normalsize`
-- long script: `small`
-- never use `LARGE`, `huge`, or `Huge` for manuscript body text
-- if unsure, choose the smaller size
+Adaptive sizing (top-slide-manuscript only):
+- very short: `large` or `Large`
+- normal: `normalsize`
+- long: `small`
+- never use `LARGE`, `huge`, `Huge`
+- if unsure, choose smaller
 
-Suggested thresholds:
-- 0–60 Chinese characters or 0–45 English words: `large`
-- 61–140 Chinese characters or 46–100 English words: `large` or `normalsize`
-- 141–350 Chinese characters or 101–230 English words: `normalsize`
+Thresholds:
+- 0–60 Chinese chars or 0–45 English words: `large`
+- 61–140 Chinese chars or 46–100 English words: `large` or `normalsize`
+- 141–350 Chinese chars or 101–230 English words: `normalsize`
 - longer: `small`
 
-Use optional argument style consistent with template, for example:
-`\begin{SlideManuscriptBlock}[large]{Slide 1}{1}`
+## 8) PDF compilation and fallback boundary
 
-## 8) Optional compilation boundary
+Preferred compiler/tooling:
+- Codex LaTeX/Tectonic plugin/tooling
 
-**Do not compile unless explicitly requested and environment supports it.**
+Local fallback compiler:
+- `xelatex main.tex` twice
 
-Core skill completion is `main.tex`.
-If user requests compilation, provide or run:
-- Default local command: `xelatex main.tex` twice
-- Optional command: `tectonic main.tex`
+Alternative local command:
+- `tectonic main.tex`
+
+Fallback to `main.tex` only if:
+1. required PDF compilation plugin/tooling is unavailable;
+2. user explicitly refuses enabling/installing it;
+3. compilation fails after reasonable automatic fixes;
+4. environment cannot write or return PDF artifacts;
+5. user explicitly asks for TeX source only.
 
 ## 9) Post-generation checklist
 
-Follow `references/post-generation-checklist.md` before final output.
+Follow `references/post-generation-checklist.md`.
 
 ## 10) Output format
 
-- Return one complete LaTeX document source (`main.tex` content).
-- No partial snippets unless user explicitly asks for partial edits.
+Default successful output:
+- `main.pdf`
+- short note that `main.tex` was used as build artifact
+
+Fallback output:
+- complete `main.tex` source
+- exact compile commands
+- short explanation why PDF was not produced

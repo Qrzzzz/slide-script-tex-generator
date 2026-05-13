@@ -2,12 +2,13 @@
 
 # 📝 Slide Script TeX Generator
 
-### Codex Skill: generate editable LaTeX speaker notes from slide PDFs and scripts
+### Codex Skill for PDF-first speaker handouts from slide PDFs and scripts
 
 [中文](./README-CN.md) · [Examples](./examples) · [Templates](./assets/templates) · [Skill Spec](./SKILL.md) · [Install](./INSTALL.md)
 
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
-![Core Output](https://img.shields.io/badge/Core%20Output-main.tex-0F766E)
+![Primary Output](https://img.shields.io/badge/Primary%20Output-main.pdf-0F766E)
+![Build Artifact](https://img.shields.io/badge/Build%20Artifact-main.tex-1D4ED8)
 ![Input](https://img.shields.io/badge/Input-slides.pdf%20%2B%20script-FF5722)
 ![License](https://img.shields.io/badge/License-LICENSE-blue)
 
@@ -15,87 +16,110 @@
 
 ## What this project does
 
-This repository provides a Codex Skill for one job:
+Input:
+- exported `slides.pdf`
+- slide-by-slide script
 
-- **Input**: exported `slides.pdf` + slide-by-slide speech script
-- **Core output**: one complete, editable, compilable `main.tex`
-- **Optional output**: `main.pdf`, only if the user/environment compiles later
+Normal workflow:
+1. Generate `main.tex` from `slides.pdf` and script.
+2. Compile `main.tex` into `main.pdf` through configured LaTeX/PDF tooling.
+3. Deliver `main.pdf` as the standard final artifact.
 
-The skill does not treat PDF compilation as its core responsibility.
+Fallback:
+- If PDF compilation is unavailable, rejected, or fails after reasonable attempts, deliver `main.tex` with exact compile instructions.
+
+PDF generation is the preferred and standard completion path.
+TeX generation is the necessary intermediate step.
+TeX-only output is a fallback path.
 
 ![Overview](./assets/overview-en.png)
 
 ## Quick start
 
-Use the skill with default settings (`top-slide-manuscript`):
-
 ```text
 Use the slide-script-tex-generator skill.
 
 I have slides.pdf and a page-by-page script.
-Generate main.tex with the default top-slide-manuscript layout.
-Only output the full main.tex source.
+Generate a PDF-first handout with default top-slide-manuscript layout.
+Return main.pdf if compilation tooling is available.
+If not, return full main.tex and exact compile commands.
 ```
 
-## Inputs and outputs
+## Inputs and deliverables
 
 **Required input**
-- `slides.pdf` (already exported from PPT/Keynote/Google Slides)
+- `slides.pdf`
 
 **Recommended input**
 - `script.md` / `script.txt` / pasted script text
 
-**Core output**
+**Primary deliverable**
+- `main.pdf`
+
+**Intermediate build artifact**
 - `main.tex`
 
-**Optional output (outside core skill output)**
-- `main.pdf` after manual or tool-based compilation
+**Fallback deliverable**
+- `main.tex` (with compile commands and fallback reason)
+
+## Standard PDF-first workflow
+
+1. Normalize and align script sections to slide pages.
+2. Generate full `main.tex` using selected template.
+3. Attempt compilation to `main.pdf` when tooling is available.
+4. Return `main.pdf` as primary deliverable.
+5. Fall back to `main.tex` only under documented fallback conditions.
 
 ## Layouts
 
 ### 1) `top-slide-manuscript` (default)
 - Large slide preview on top, manuscript below.
-- Best for rehearsal and full speaking scripts.
-- Supports optional per-slide adaptive manuscript font sizing.
+- Supports optional adaptive manuscript font sizing.
 
 ### 2) `left-thumbnail-clean`
-- Slide thumbnail on the left, script on the right.
-- Best for structured handouts and bilingual use.
+- Slide thumbnail on left, script on right.
 
 ### 3) `compact-review-notes`
-- Dense review format with smaller visual footprint.
-- Best for quick review and print efficiency.
+- Compact printable review layout.
 
 ## Script splitting rules
 
-Script normalization priority:
 1. Split by `---`
-2. Split by headings like `Slide 1`, `Page 1`, `第1页`
+2. Split by headings (`Slide 1`, `Page 1`, `第1页`)
 3. Split by numbered sections
-4. If no delimiter exists, split approximately by slide count
+4. If unsplit, approximate by slide count
 
 ## Generation behavior
 
-- **Missing script sections**: generate empty placeholders for unmatched slides.
-- **Extra script sections**: keep all content and append extras under an `Extra Notes` section.
-- **Blank/divider pages**: do not silently guess; ask user whether to keep or skip.
-- **Adaptive font sizing**: enabled only for `top-slide-manuscript` when user allows it.
+- Missing script sections -> generate placeholders.
+- Extra script sections -> append under `Extra Notes`.
+- Blank/divider pages -> ask user keep/skip/manual selection.
+- Escape LaTeX special characters in prose.
 
-## Optional compilation
+## PDF generation and fallback behavior
 
-Compilation is outside the core skill output boundary. The skill’s normal completion is `main.tex`.
+Preferred compiler/tooling:
+- Codex LaTeX/Tectonic plugin/tooling, when available.
 
-- **Default local compile command**:
-  ```bash
-  xelatex main.tex
-  xelatex main.tex
-  ```
-- **Optional Tectonic command**:
-  ```bash
-  tectonic main.tex
-  ```
+Local fallback compiler:
+```bash
+xelatex main.tex
+xelatex main.tex
+```
 
-## Installation in Codex
+Alternative local command:
+```bash
+tectonic main.tex
+```
+
+Fallback to TeX-only output only if:
+1. required PDF compilation plugin/tooling is unavailable;
+2. user explicitly refuses enabling/installing it;
+3. compilation fails after reasonable fixes;
+4. environment cannot write or return PDF artifact;
+5. user explicitly asks for TeX source only.
+
+## Installation
 
 Quick install:
 
@@ -103,7 +127,7 @@ Quick install:
 $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator
 ```
 
-For manual install commands and troubleshooting, see [INSTALL.md](./INSTALL.md).
+Detailed setup and PDF-tooling notes: [INSTALL.md](./INSTALL.md).
 
 ## Project structure
 
@@ -131,9 +155,9 @@ slide-script-tex-generator/
 └── examples/
     ├── sample-script.md
     ├── sample-script-bilingual.md
-    ├── sample-output-top-slide-manuscript.tex
-    ├── sample-output-left-thumbnail.tex
-    ├── sample-output-compact-review-notes.tex
+    ├── sample-main-top-slide-manuscript.tex
+    ├── sample-main-left-thumbnail.tex
+    ├── sample-main-compact-review-notes.tex
     ├── sample-output-extra-notes.tex
     └── sample-output-missing-script.tex
 ```
@@ -142,12 +166,11 @@ slide-script-tex-generator/
 
 - Does not convert PPTX to PDF
 - Does not perform OCR
-- Does not require compilation to finish core task
-- Does not use absolute local paths in templates
+- Does not claim PDF success unless `main.pdf` exists
 
 ## Examples
 
-See [examples](./examples) for scripts and generated `.tex` outputs across all layouts and mismatch cases.
+Examples provide reproducible TeX sources. The standard skill workflow compiles them to PDF when compilation tooling is available.
 
 ## License
 

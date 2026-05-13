@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Clarified core output as `main.tex`.
+- Repositioned the project to PDF-first delivery (`main.pdf`) with TeX fallback (`main.tex`).
 - Reorganized `README.md` and `README-CN.md` with matching structure.
-- Synchronized `SKILL.md` and reference docs.
-- Added and updated examples for all layouts and mismatch scenarios.
+- Synchronized `SKILL.md`, `INSTALL.md`, and reference docs around PDF-first workflow and fallback rules.
+- Added and updated examples for layouts and mismatch scenarios.
