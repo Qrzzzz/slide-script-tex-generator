@@ -1,0 +1,52 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.35cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\newcommand{\SlidePDF}{slides.pdf}
+\newcommand{\DocTitle}{Speaker Handout (Extra Notes Example)}
+
+\definecolor{linegray}{RGB}{210,210,210}
+\definecolor{deepblue}{RGB}{25,55,90}
+
+\newenvironment{SlideScriptBlock}[2]{
+  \section*{#1}
+  \noindent
+  \begin{minipage}[t]{0.40\textwidth}
+    \vspace{0pt}
+    \fcolorbox{linegray}{white}{
+      \includegraphics[page=#2,width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax]{\SlidePDF}
+    }
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.56\textwidth}
+    \vspace{0pt}
+    {\large\bfseries\color{deepblue} Script}\\[0.4em]
+}{
+  \end{minipage}
+  \newpage
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries \DocTitle}
+\end{center}
+
+\begin{SlideScriptBlock}{Slide 1}{1}
+Intro script for page 1.
+\end{SlideScriptBlock}
+
+\begin{SlideScriptBlock}{Slide 2}{2}
+Main explanation for page 2.
+\end{SlideScriptBlock}
+
+\section*{Extra Notes}
+\textbf{Note 3:} Additional script section beyond PDF page count.
+
+\textbf{Note 4:} Backup speaking points.
+
+\end{document}

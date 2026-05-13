@@ -2,396 +2,186 @@
 
 # 📝 Slide Script TeX Generator
 
-### 一个把幻灯片 PDF 和演讲稿转换成 LaTeX 讲义源码的轻量 Codex Skill
+### 用于从幻灯片 PDF 与讲稿生成 PDF-first 演讲讲义的 Codex Skill
 
-**Slide PDF / 演讲稿 / LaTeX 源码 / 汇报讲义 / 中英双语友好**
-
-[English](./README.md) · [示例](./examples) · [模板](./assets/templates) · [Skill](./SKILL.md)
+[English](./README.md) · [示例](./examples) · [模板](./assets/templates) · [Skill 规范](./SKILL.md) · [安装说明](./INSTALL.md)
 
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
-![LaTeX](https://img.shields.io/badge/Output-PDF%20(via%20Tectonic)-008080?logo=latex&logoColor=white)
-![PDF](https://img.shields.io/badge/Input-PDF-FF5722?logo=adobeacrobatreader&logoColor=white)
-![License](https://img.shields.io/github/license/Qrzzzz/slide-script-tex-generator)
+![Primary Output](https://img.shields.io/badge/Primary%20Output-main.pdf-0F766E)
+![Build Artifact](https://img.shields.io/badge/Build%20Artifact-main.tex-1D4ED8)
+![Input](https://img.shields.io/badge/Input-slides.pdf%20%2B%20script-FF5722)
+![License](https://img.shields.io/badge/License-LICENSE-blue)
 
 </div>
 
----
+## 项目做什么
 
-## 🔍 项目概览
+输入：
+- 已导出的 `slides.pdf`
+- 逐页讲稿
 
-**Slide Script TeX Generator** 是一个极简 Codex Skill，用于把已经导出的幻灯片 PDF 和演讲稿整理成一个可编辑的 LaTeX 讲义源码，并可进一步通过 Tectonic 编译为最终 PDF。
+标准流程：
+1. 从 `slides.pdf` 和讲稿生成 `main.tex`。
+2. 通过可用的 LaTeX/PDF 工具链将 `main.tex` 编译为 `main.pdf`。
+3. 交付 `main.pdf` 作为标准最终产物。
 
-它适合学生汇报、课程展示、小组演讲、英文 presentation、教师讲义整理，以及任何需要把「PPT 页面」和「逐页讲稿」放在一起的人。
+降级流程：
+- 若 PDF 编译不可用、被用户拒绝、或在合理修复后仍失败，则交付 `main.tex` 并附准确编译命令。
+
+PDF 生成是优先且标准完成路径。
+TeX 生成是必要中间步骤。
+仅输出 TeX 是降级路径。
 
 ![中文概览](./assets/overview-cn.png)
 
----
-
-## ✨ 默认优先流程
-
-默认版式是 `top-slide-manuscript`。
-
-该默认版式会在每页上方放较大的幻灯片预览，下方放对应演讲稿，适合排练、背稿和逐页对照。
-
-在生成最终 `.tex` 之前，skill 必须先询问（除非用户已明确给出答案）：
-
-1. 是否使用默认版式 `top-slide-manuscript`
-2. 演讲稿如何切分（`---`、`Slide 1/第1页` 标题、或需按页数粗略切分）
-3. 是否允许按页自适应调整讲稿字号
-4. 若存在空白页/过渡页/分隔页，应如何处理
-
----
-
-## 🛠️ 安装到 Codex
-
-本项目可以作为一个 Codex Skill 使用。Codex Skill 本质上是一个包含 `SKILL.md` 的文件夹；安装后，Codex 就可以在需要把幻灯片 PDF 与演讲稿整理成 LaTeX 讲义时调用这个工作流。
-
-### 🤖 方法一：让 Cursor 自动安装
-
-你可以直接把下面这段话发给 Cursor，让它在你的本机环境中自动完成安装：
+## 快速开始
 
 ```text
-请帮我把这个 GitHub 仓库安装为一个 Codex Skill：
+Use the slide-script-tex-generator skill.
 
-https://github.com/Qrzzzz/slide-script-tex-generator
-
-要求：
-1. 将整个仓库下载或克隆到 Codex 的 skills 目录中。
-2. 如果设置了 CODEX_HOME，则安装到 $CODEX_HOME/skills/slide-script-tex-generator。
-3. 如果没有设置 CODEX_HOME，则安装到 ~/.codex/skills/slide-script-tex-generator。
-4. 确认目标目录下存在 SKILL.md。
-5. 安装完成后提醒我重启 Codex，或在 Codex 中重新打开一个新会话。
-6. 不要只复制 README，要保留 SKILL.md、assets、references、examples 等目录结构。
+I have slides.pdf and a page-by-page script.
+Generate a PDF-first handout with default top-slide-manuscript layout.
+Return main.pdf if compilation tooling is available.
+If not, return full main.tex and exact compile commands.
 ```
 
-安装完成后，在 Codex 中可以这样调用：
+中文调用示例：
 
 ```text
 使用 slide-script-tex-generator skill。
 
-我有 slides.pdf 和 script.md。
-请使用默认的 top-slide-manuscript 布局生成一份 LaTeX 讲义。
-只输出最终的 main.tex 源代码。
+我有 slides.pdf 和逐页讲稿。
+请使用默认 top-slide-manuscript 版式按 PDF-first 流程生成。
+若工具可用，请返回 main.pdf；否则返回完整 main.tex 和精确编译命令。
 ```
 
-或者：
+## 输入与交付物
 
-```text
-$slide-script-tex-generator
+**必需输入**
+- `slides.pdf`
 
-请根据 slides.pdf 和我的逐页演讲稿生成 top-slide-manuscript 风格的 LaTeX 讲义源码。
+**推荐输入**
+- `script.md` / `script.txt` / 直接粘贴讲稿
+
+**主要交付物**
+- `main.pdf`
+
+**中间构建产物**
+- `main.tex`
+
+**降级交付物**
+- `main.tex`（附编译命令与降级原因）
+
+## 标准 PDF-first 工作流
+
+1. 规范化并按页对齐讲稿。
+2. 生成完整 `main.tex`。
+3. 在工具可用时尝试编译为 `main.pdf`。
+4. 优先返回 `main.pdf`。
+5. 仅在降级条件满足时返回 `main.tex`。
+
+## 版式（Layouts）
+
+### 1) `top-slide-manuscript`（默认）
+- 上方大图，下方讲稿。
+- 支持可选自适应字号。
+
+### 2) `left-thumbnail-clean`
+- 左侧 slide，右侧讲稿。
+
+### 3) `compact-review-notes`
+- 紧凑打印复习版式。
+
+## 讲稿切分规则
+
+1. 按 `---` 切分
+2. 按标题（`Slide 1`、`Page 1`、`第1页`）切分
+3. 按编号段落切分
+4. 无分隔时按页数近似切分
+
+## 生成行为
+
+- 讲稿段落不足：补占位。
+- 讲稿段落超出：追加到 `Extra Notes`。
+- 空白/分隔页：先询问保留或跳过。
+- 正文需进行 LaTeX 特殊字符转义。
+
+## PDF 生成与降级行为
+
+优先编译工具：
+- Codex LaTeX/Tectonic plugin/tooling（可用时优先）。
+
+本地回退编译命令：
+```bash
+xelatex main.tex
+xelatex main.tex
 ```
 
-### ⚙️ 方法二：用 Codex 内置安装器
+可选本地命令：
+```bash
+tectonic main.tex
+```
 
-在 Codex 中输入：
+仅在以下情况降级为 TeX-only：
+1. 所需 PDF 编译插件/工具不可用；
+2. 用户明确拒绝安装或启用；
+3. 编译在合理修复后仍失败；
+4. 环境无法写出或返回 PDF 文件；
+5. 用户明确只要 TeX 源码。
+
+## 安装
+
+快速安装：
 
 ```text
 $skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator
 ```
 
-如果你的 Codex 版本要求使用 GitHub tree URL，也可以尝试：
+详细安装与 PDF 编译工具要求见 [INSTALL.md](./INSTALL.md)。
 
-```text
-$skill-installer install https://github.com/Qrzzzz/slide-script-tex-generator/tree/main
-```
-
-安装后重启 Codex，或重新打开一个 Codex 会话。
-
-### 💻 方法三：命令行手动安装
-
-macOS / Linux / WSL：
-
-```bash
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-
-rm -rf "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
-
-git clone https://github.com/Qrzzzz/slide-script-tex-generator.git \
-  "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator"
-
-test -f "${CODEX_HOME:-$HOME/.codex}/skills/slide-script-tex-generator/SKILL.md" \
-  && echo "Installed successfully. Restart Codex to use the skill."
-```
-
-Windows PowerShell：
-
-```powershell
-$CodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE ".codex" }
-$SkillsDir = Join-Path $CodexHome "skills"
-$SkillDir = Join-Path $SkillsDir "slide-script-tex-generator"
-
-New-Item -ItemType Directory -Force -Path $SkillsDir | Out-Null
-
-if (Test-Path $SkillDir) {
-    Remove-Item -Recurse -Force $SkillDir
-}
-
-git clone https://github.com/Qrzzzz/slide-script-tex-generator.git $SkillDir
-
-if (Test-Path (Join-Path $SkillDir "SKILL.md")) {
-    Write-Host "Installed successfully. Restart Codex to use the skill."
-} else {
-    Write-Host "Installation failed: SKILL.md was not found."
-}
-```
-
-### ✅ 验证安装
-
-安装完成后，检查下面的文件是否存在：
-
-```text
-~/.codex/skills/slide-script-tex-generator/SKILL.md
-```
-
-然后重启 Codex，或开启一个新的 Codex 会话。你可以通过 `/skills` 查看 Skill 是否被识别，也可以在提示词中直接写：
-
-```text
-Use the slide-script-tex-generator skill.
-```
-
-
-## 🧱 从 TeX 到最终 PDF（Tectonic）
-
-本仓库现在将 **PDF 作为最终交付物**。
-
-典型流程：
-
-1. 用本 skill 生成 `main.tex`
-2. 使用 Codex 官方 LaTeX **Tectonic** 工具链编译
-3. 交付 `main.pdf` 进行打印/复习
-
-如果当前 Codex 环境还未安装 Tectonic，可先让 Codex 引导你安装/启用官方插件，再执行编译。
-
-命令行兜底：
-
-```bash
-tectonic main.tex
-```
-
-编译成功后，会在同目录生成 `main.pdf`。
-
----
-
-## 📦 这个项目能做什么
-
-给定：
-
-```text
-slides.pdf
-script.md / script.txt / 直接粘贴的演讲稿
-```
-
-它会生成：
-
-```text
-main.tex
-main.pdf（可选，通过 Tectonic 编译）
-```
-
-生成的 LaTeX 文件会直接引用 `slides.pdf` 中的单页，例如：
-
-```latex
-\includegraphics[page=1,width=0.4\textwidth]{slides.pdf}
-```
-
-也就是说，PPT 的视觉内容仍然来自 `slides.pdf`，而演讲稿会被按页整理到对应位置，最终形成一份可编辑、可排版、可编译的 LaTeX 演讲讲义源码。
-
----
-
-## 🚀 核心特性
-
-- 根据 slide PDF 和演讲稿生成一个独立 `.tex` 文件
-- 按 PPT 页面对齐演讲稿内容
-- 支持 Markdown、txt、纯文本和直接粘贴的演讲稿
-- 支持中文、英文和中英双语内容
-- 内置 3 种高兼容性 LaTeX 模板
-- 输出结果清晰、可编辑、适合作为 GitHub 开源项目维护
-- 适合汇报排练、讲稿整理、打印复习和演讲准备
-
----
-
-## 🧩 内置版式
-
-### `left-thumbnail-clean`
-
-左侧显示 PPT 缩略图，右侧显示对应页演讲稿。
-
-适合：
-
-- 正式汇报
-- 演讲讲义
-- 中英双语稿
-- 逐页解释型 presentation
-
----
-
-### `top-slide-manuscript`
-
-上方显示较大的 PPT 页面，下方显示完整演讲稿。
-
-适合：
-
-- 背稿
-- 排练
-- 完整逐字稿
-- 需要清楚看到每页 PPT 内容的场景
-
----
-
-### `compact-review-notes`
-
-紧凑型复习版式。
-
-适合：
-
-- 打印复习
-- 简短讲稿
-- 小组排练
-- 节省页数
-- 快速浏览每页讲稿
-
----
-
-## 📁 推荐工作目录
-
-建议把 `slides.pdf`、演讲稿和生成的 `main.tex` 放在同一个文件夹中：
-
-```text
-my-presentation/
-  slides.pdf
-  script.md
-  main.tex
-```
-
-生成的 `.tex` 默认假定 `slides.pdf` 和 `main.tex` 位于同一目录。
-
----
-
-## 💬 如何在 Codex 中使用
-
-可以这样要求 Codex：
-
-```text
-Use the slide-script-tex-generator skill.
-
-我有 slides.pdf 和下面这份演讲稿。
-请使用 left-thumbnail-clean 风格生成 LaTeX 讲义。
-只输出最终的 main.tex 源码。
-```
-
-也可以这样：
-
-```text
-Use the slide-script-tex-generator skill.
-
-请根据 slides.pdf 和 script.md 生成 compact-review-notes 风格的紧凑复习版。
-我的演讲稿已经用 --- 按页分隔。
-```
-
----
-
-## ✂️ 演讲稿切分规则
-
-Skill 会按以下优先级切分演讲稿：
-
-1. Markdown 分隔符：
-
-```markdown
----
-```
-
-2. 页码标题：
-
-```text
-Slide 1
-Page 1
-第1页
-第 1 页
-P1
-```
-
-3. 明显的编号段落
-
-4. 如果没有明确分隔符，则在已知页数的情况下尝试按页数粗略切分
-
-Skill 会尽量保留所有用户内容。
-
-如果演讲稿段落多于 PPT 页数，额外内容会被保留为补充备注。
-
-如果演讲稿段落少于 PPT 页数，会为缺失页生成占位内容。
-
----
-
-## ✅ 生成后检查
-
-生成 `.tex` 后，skill 会检查一些常见问题，例如：
-
-- PPT 页数和讲稿段落数量是否明显不匹配
-- 是否缺少 `\newpage`
-- PDF 文件名是否错误
-- 是否残留未转换的 Markdown 语法
-- LaTeX 特殊字符是否未转义
-- 是否出现本地绝对路径
-- 没有讲稿的页面是否有占位内容
-
----
-
-## 🚫 这个项目不做什么
-
-这个 skill 刻意保持很小的范围。
-
-它不负责：
-
-- PPTX 转 PDF
-- 编译 LaTeX
-- OCR 识别
-- 安装依赖
-- 创建完整工作项目文件夹
-- 把 PDF 页面转换成图片
-
-使用前，请先自己把 PPT / PPTX 导出为 `slides.pdf`。
-
----
-
-## 🗂️ 项目结构
+## 项目结构
 
 ```text
 slide-script-tex-generator/
-  SKILL.md
-  README.md
-  README.cn.md
-  assets/
-    overview-en.png
-    overview-cn.png
-    templates/
-      left-thumbnail-clean.tex
-      top-slide-manuscript.tex
-      compact-review-notes.tex
-  references/
-    template-style-guide.md
-    script-splitting-rules.md
-    latex-compatibility-notes.md
-  examples/
-    sample-script.md
-    sample-output-left-thumbnail.tex
+├── SKILL.md
+├── README.md
+├── README-CN.md
+├── INSTALL.md
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+├── LICENSE
+├── assets/
+│   ├── overview-en.png
+│   ├── overview-cn.png
+│   └── templates/
+│       ├── top-slide-manuscript.tex
+│       ├── left-thumbnail-clean.tex
+│       └── compact-review-notes.tex
+├── references/
+│   ├── template-style-guide.md
+│   ├── script-splitting-rules.md
+│   ├── latex-compatibility-notes.md
+│   └── post-generation-checklist.md
+└── examples/
+    ├── sample-script.md
+    ├── sample-script-bilingual.md
+    ├── sample-main-top-slide-manuscript.tex
+    ├── sample-main-left-thumbnail.tex
+    ├── sample-main-compact-review-notes.tex
+    ├── sample-main-extra-notes.tex
+    └── sample-main-missing-script.tex
 ```
 
----
+## 本 skill 不做什么
 
-## 🧪 编译生成的 LaTeX 文件
+- 不负责 PPTX 转 PDF
+- 不执行 OCR
+- 不会在 `main.pdf` 实际不存在时声称已成功生成 PDF
 
-Codex 生成 `main.tex` 后，把它和 `slides.pdf` 放在同一目录下，然后使用 XeLaTeX 编译：
+## 示例
 
-```bash
-xelatex main.tex
-xelatex main.tex
-```
+示例目录提供可复现的 TeX 源码。标准 skill 流程会在编译工具可用时将其编译为 PDF。
 
-LaTeX 编译不属于 skill 本身的工作范围。这个 skill 的职责到生成 `.tex` 源码为止。
+## 许可证
 
----
-
-## 📄 开源许可证
-
-本项目使用 MIT License 开源。
+本项目使用 [LICENSE](./LICENSE)。

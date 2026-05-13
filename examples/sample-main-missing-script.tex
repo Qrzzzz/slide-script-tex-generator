@@ -1,0 +1,51 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\newcommand{\SlidePDF}{slides.pdf}
+\newcommand{\DocTitle}{Top Manuscript (Missing Script Example)}
+
+\definecolor{titleblue}{RGB}{20,52,88}
+\definecolor{linegray}{RGB}{215,215,215}
+
+\newenvironment{SlideManuscriptBlock}[3][normalsize]{
+  \section*{#2}
+  \begin{center}
+    \fcolorbox{linegray}{white}{
+      \includegraphics[page=#3,width=\dimexpr0.92\textwidth-2\fboxsep-2\fboxrule\relax]{\SlidePDF}
+    }
+  \end{center}
+  {\large\bfseries\color{titleblue} Manuscript}\\[0.3em]
+  \noindent{\color{linegray}\rule{\textwidth}{0.4pt}}
+  \vspace{0.5em}
+  \begingroup\csname #1\endcsname
+}{
+  \endgroup
+  \vspace{0.5em}
+  \noindent{\color{linegray}\rule{\textwidth}{0.4pt}}
+  \newpage
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries \DocTitle}
+\end{center}
+
+\begin{SlideManuscriptBlock}[normalsize]{Slide 1}{1}
+This is the script for slide 1.
+\end{SlideManuscriptBlock}
+
+\begin{SlideManuscriptBlock}[large]{Slide 2}{2}
+\textit{[Placeholder] No script provided for this slide.}
+\end{SlideManuscriptBlock}
+
+\begin{SlideManuscriptBlock}[large]{Slide 3}{3}
+\textit{[Placeholder] No script provided for this slide.}
+\end{SlideManuscriptBlock}
+
+\end{document}
